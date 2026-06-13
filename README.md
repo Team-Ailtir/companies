@@ -16,7 +16,7 @@ A growing catalog of ready-to-deploy agent companies for the [Paperclip](https:/
 - **🎯 Domain-Specific**: Security firms, game studios, science labs, consultancies — not generic prompt wrappers
 - **🧬 Complete Org Structures**: CEO → directors → specialists, with real reporting lines and delegation
 - **🛠️ Skill-Loaded**: Hundreds of reusable workflow skills agents actually know how to run
-- **⚡ Import & Go**: `npx paperclipai company import --from ./trail-of-bits-security` and you're live
+- **⚡ Import & Go**: `npx paperclipai company import ./trail-of-bits-security` and you're live
 
 ## Table of Contents
 
