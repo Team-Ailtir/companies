@@ -50,7 +50,7 @@ jobs:
             cat /tmp/refresh-summary.txt
             echo '```'
             echo
-            echo 'Validation: `npx paperclipai company import --from ./<affected-company> --dry-run` for each changed company.'
+            echo 'Validation: `npx -y paperclipai@2026.609.0 company import ./<affected-company> --dry-run` for each changed company.'
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
 
@@ -67,7 +67,7 @@ jobs:
           fi
           for company in $companies; do
             if [ -f "$company/COMPANY.md" ]; then
-              npx paperclipai company import --from "./$company" --dry-run
+              npx -y paperclipai@2026.609.0 company import "./$company" --dry-run
             fi
           done
 

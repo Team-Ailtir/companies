@@ -24,7 +24,7 @@ Expected company layout:
 There is no root build system. Validate packages with the Paperclip CLI:
 
 ```bash
-npx paperclipai company import --from ./agentsys-engineering --dry-run
+npx paperclipai company import ./agentsys-engineering --dry-run
 npx companies.sh add paperclipai/companies/agentsys-engineering
 scripts/refresh-companies --check --repo obra/superpowers
 ```
