@@ -1,0 +1,80 @@
+name: Refresh companies
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        upstream:
+          - Donchitos/Claude-Code-Game-Studios
+          - HKUDS/ClawTeam
+          - K-Dense-AI/claude-scientific-skills
+          - MiniMax-AI/skills
+          - OneRedOak/claude-code-workflows
+          - aaronjmars/aeon
+          - agent-sh/agentsys
+          - garrytan/gstack
+          - glittercowboy/taches-cc-resources
+          - jeffallan/claude-skills
+          - obra/superpowers
+          - phuryn/pm-skills
+          - trailofbits/skills
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Build refresh summary
+        id: summary
+        run: |
+          set -euo pipefail
+          scripts/refresh-companies --check --repo "${{ matrix.upstream }}" > /tmp/refresh-summary.txt
+          {
+            echo 'body<<EOF'
+            echo 'Automated company refresh for `${{ matrix.upstream }}`.'
+            echo
+            echo '```text'
+            cat /tmp/refresh-summary.txt
+            echo '```'
+            echo
+            echo 'Validation: `npx paperclipai company import --from ./<affected-company> --dry-run` for each changed company.'
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Refresh ${{ matrix.upstream }}
+        run: scripts/refresh-companies --apply --repo "${{ matrix.upstream }}"
+
+      - name: Validate affected companies
+        run: |
+          set -euo pipefail
+          companies="$(git diff --name-only | awk -F/ 'NF > 1 {print $1}' | sort -u | tr '\n' ' ')"
+          if [ -z "${companies// }" ]; then
+            echo "No company changes."
+            exit 0
+          fi
+          for company in $companies; do
+            if [ -f "$company/COMPANY.md" ]; then
+              npx paperclipai company import --from "./$company" --dry-run
+            fi
+          done
+
+      - uses: peter-evans/create-pull-request@v6
+        with:
+          branch: refresh/${{ matrix.upstream }}
+          delete-branch: true
+          commit-message: Refresh ${{ matrix.upstream }} company skills
+          title: Refresh ${{ matrix.upstream }} company skills
+          body: ${{ steps.summary.outputs.body }}

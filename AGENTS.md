@@ -26,9 +26,11 @@ There is no root build system. Validate packages with the Paperclip CLI:
 ```bash
 npx paperclipai company import --from ./agentsys-engineering --dry-run
 npx companies.sh add paperclipai/companies/agentsys-engineering
+scripts/refresh-companies --check --repo obra/superpowers
 ```
 
 Use `--dry-run` before submitting changes to a company. Use the `companies.sh` command when checking the published import path documented in the root `README.md`.
+Use `scripts/refresh-companies --check` to inspect upstream skill drift and `--apply --repo <owner/repo>` only when intentionally refreshing generated company skill metadata.
 
 ## Coding Style & Naming Conventions
 
@@ -51,3 +53,9 @@ When adding images, verify relative Markdown links render from the company READM
 Recent commits use short, imperative summaries such as `Replace pnpm with npx for paperclipai CLI commands` and `Enforce CEO as root agent across all 16 companies`. Follow that style and keep one logical change per commit.
 
 Pull requests should describe the company or package changed, summarize validation performed, and link related upstream sources or issues. Keep PRs scoped to one company where practical, especially when importing or refreshing upstream skills.
+
+## Automated Skill Refreshes
+
+`.companies-refresh.yaml` lists upstream skill repositories tracked by the scheduled GitHub Actions workflow in `.github/workflows/refresh-companies.yml`. The workflow runs weekly, refreshes one upstream per PR, prefers the latest semver tag, and falls back to the default branch HEAD when no release tag exists.
+
+The refresh script preserves catalog-written skill stubs by default and only replaces vendored upstream bodies when a skill already embeds the upstream document. Missing upstream paths are reported in the job summary so maintainers can decide whether to retire, remap, or manually rebuild those skills.
