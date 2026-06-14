@@ -59,3 +59,5 @@ Pull requests should describe the company or package changed, summarize validati
 `.companies-refresh.yaml` lists upstream skill repositories tracked by the scheduled GitHub Actions workflow in `.github/workflows/refresh-companies.yml`. The workflow runs weekly, refreshes one upstream per PR, prefers the latest semver tag, and falls back to the default branch HEAD when no release tag exists.
 
 The refresh script preserves catalog-written skill stubs by default and only replaces vendored upstream bodies when a skill already embeds the upstream document. Missing upstream paths are reported in the job summary so maintainers can decide whether to retire, remap, or manually rebuild those skills.
+
+Paperclip import validation is intentionally separate in `.github/workflows/validate-company-packages.yml`. That pull request workflow starts one local Paperclip server per PR and validates all changed company packages with `paperclipai@2026.609.0`.
