@@ -119,7 +119,7 @@ jobs:
               [ -n "$company" ] || continue
               npx -y "paperclipai@$PAPERCLIPAI_VERSION" company import "./$company" \
                 --dry-run \
-                --api-base http://localhost:3100/api \
+                --api-base http://localhost:3100 \
                 --data-dir "$PAPERCLIP_HOME"
             done <<EOF
           $companies
