@@ -1,6 +1,16 @@
 name: Validate company packages
 
 on:
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: "Pull request number to validate. Leave empty to validate all refresh PRs."
+        required: false
+  workflow_run:
+    workflows:
+      - Refresh companies
+    types:
+      - completed
   pull_request:
     paths:
       - ".github/workflows/validate-company-packages.yml"
@@ -13,13 +23,16 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
   validate:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     env:
       PAPERCLIPAI_VERSION: "2026.609.0"
       PAPERCLIP_HOME: ${{ runner.temp }}/paperclip
+      GH_TOKEN: ${{ github.token }}
 
     steps:
       - uses: actions/checkout@v4
@@ -30,37 +43,35 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Detect changed companies
-        id: changed
+      - name: Select PRs
+        id: prs
         run: |
           set -euo pipefail
-          base="${{ github.event.pull_request.base.sha }}"
-          head="${{ github.event.pull_request.head.sha }}"
-          companies="$(git diff --name-only "$base" "$head" \
-            | awk -F/ 'NF > 1 {print $1}' \
-            | sort -u \
-            | while read -r company; do
-                if [ -f "$company/COMPANY.md" ]; then
-                  echo "$company"
-                fi
-              done)"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            printf '%s\n' "${{ github.event.pull_request.number }}" > "$RUNNER_TEMP/prs.txt"
+          elif [ -n "${{ inputs.pr || '' }}" ]; then
+            printf '%s\n' "${{ inputs.pr }}" > "$RUNNER_TEMP/prs.txt"
+          else
+            gh pr list --state open --limit 100 --json number,headRefName \
+              --jq '.[] | select(.headRefName | startswith("refresh/")) | .number' > "$RUNNER_TEMP/prs.txt"
+          fi
 
-          if [ -z "$companies" ]; then
-            echo "has_companies=false" >> "$GITHUB_OUTPUT"
-            echo "No company package changes."
+          if [ ! -s "$RUNNER_TEMP/prs.txt" ]; then
+            echo "has_prs=false" >> "$GITHUB_OUTPUT"
+            echo "No refresh pull requests to validate."
             exit 0
           fi
 
-          echo "has_companies=true" >> "$GITHUB_OUTPUT"
+          echo "has_prs=true" >> "$GITHUB_OUTPUT"
           {
-            echo "companies<<EOF"
-            echo "$companies"
+            echo "prs<<EOF"
+            cat "$RUNNER_TEMP/prs.txt"
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
-          printf 'Changed companies:\n%s\n' "$companies"
+          cat "$RUNNER_TEMP/prs.txt"
 
       - name: Start Paperclip
-        if: steps.changed.outputs.has_companies == 'true'
+        if: steps.prs.outputs.has_prs == 'true'
         run: |
           set -euo pipefail
           nohup npx -y "paperclipai@$PAPERCLIPAI_VERSION" onboard --yes --bind loopback --data-dir "$PAPERCLIP_HOME" > "$RUNNER_TEMP/paperclip.log" 2>&1 &
@@ -75,22 +86,49 @@ jobs:
           cat "$RUNNER_TEMP/paperclip.log"
           exit 1
 
-      - name: Validate changed companies
-        if: steps.changed.outputs.has_companies == 'true'
+      - name: Validate PR company packages
+        if: steps.prs.outputs.has_prs == 'true'
         run: |
           set -euo pipefail
-          while IFS= read -r company; do
-            [ -n "$company" ] || continue
-            npx -y "paperclipai@$PAPERCLIPAI_VERSION" company import "./$company" \
-              --dry-run \
-              --api-base http://localhost:3100/api \
-              --data-dir "$PAPERCLIP_HOME"
+          while IFS= read -r pr; do
+            [ -n "$pr" ] || continue
+            echo "::group::PR #$pr"
+            base="$(gh pr view "$pr" --json baseRefOid --jq .baseRefOid)"
+            head="$(gh pr view "$pr" --json headRefName --jq .headRefName)"
+            git fetch --depth=1 origin "$head"
+            git checkout --force FETCH_HEAD
+
+            companies="$(git diff --name-only "$base" HEAD \
+              | awk -F/ 'NF > 1 {print $1}' \
+              | sort -u \
+              | while read -r company; do
+                  if [ -f "$company/COMPANY.md" ]; then
+                    echo "$company"
+                  fi
+                done)"
+
+            if [ -z "$companies" ]; then
+              echo "No company package changes."
+              echo "::endgroup::"
+              continue
+            fi
+
+            while IFS= read -r company; do
+              [ -n "$company" ] || continue
+              npx -y "paperclipai@$PAPERCLIPAI_VERSION" company import "./$company" \
+                --dry-run \
+                --api-base http://localhost:3100/api \
+                --data-dir "$PAPERCLIP_HOME"
+            done <<EOF
+          $companies
+          EOF
+            echo "::endgroup::"
           done <<'EOF'
-          ${{ steps.changed.outputs.companies }}
+          ${{ steps.prs.outputs.prs }}
           EOF
 
       - name: Show Paperclip log
-        if: failure() && steps.changed.outputs.has_companies == 'true'
+        if: failure() && steps.prs.outputs.has_prs == 'true'
         run: |
           if [ -f "$RUNNER_TEMP/paperclip.log" ]; then
             cat "$RUNNER_TEMP/paperclip.log"
