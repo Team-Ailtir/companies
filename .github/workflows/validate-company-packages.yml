@@ -31,7 +31,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PAPERCLIPAI_VERSION: "2026.609.0"
-      PAPERCLIP_HOME: ${{ runner.temp }}/paperclip
       GH_TOKEN: ${{ github.token }}
 
     steps:
@@ -42,6 +41,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+
+      - name: Configure Paperclip data dir
+        run: echo "PAPERCLIP_HOME=$RUNNER_TEMP/paperclip" >> "$GITHUB_ENV"
 
       - name: Select PRs
         id: prs
