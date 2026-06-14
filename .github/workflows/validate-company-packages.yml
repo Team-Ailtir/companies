@@ -1,0 +1,97 @@
+name: Validate company packages
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/validate-company-packages.yml"
+      - "*/COMPANY.md"
+      - "*/agents/**"
+      - "*/skills/**"
+      - "*/teams/**"
+      - "*/README.md"
+      - "*/LICENSE"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      PAPERCLIPAI_VERSION: "2026.609.0"
+      PAPERCLIP_HOME: ${{ runner.temp }}/paperclip
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Detect changed companies
+        id: changed
+        run: |
+          set -euo pipefail
+          base="${{ github.event.pull_request.base.sha }}"
+          head="${{ github.event.pull_request.head.sha }}"
+          companies="$(git diff --name-only "$base" "$head" \
+            | awk -F/ 'NF > 1 {print $1}' \
+            | sort -u \
+            | while read -r company; do
+                if [ -f "$company/COMPANY.md" ]; then
+                  echo "$company"
+                fi
+              done)"
+
+          if [ -z "$companies" ]; then
+            echo "has_companies=false" >> "$GITHUB_OUTPUT"
+            echo "No company package changes."
+            exit 0
+          fi
+
+          echo "has_companies=true" >> "$GITHUB_OUTPUT"
+          {
+            echo "companies<<EOF"
+            echo "$companies"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          printf 'Changed companies:\n%s\n' "$companies"
+
+      - name: Start Paperclip
+        if: steps.changed.outputs.has_companies == 'true'
+        run: |
+          set -euo pipefail
+          nohup npx -y "paperclipai@$PAPERCLIPAI_VERSION" onboard --yes --bind loopback --data-dir "$PAPERCLIP_HOME" > "$RUNNER_TEMP/paperclip.log" 2>&1 &
+
+          for _ in {1..60}; do
+            if curl --fail --silent http://localhost:3100/api/health >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+
+          cat "$RUNNER_TEMP/paperclip.log"
+          exit 1
+
+      - name: Validate changed companies
+        if: steps.changed.outputs.has_companies == 'true'
+        run: |
+          set -euo pipefail
+          while IFS= read -r company; do
+            [ -n "$company" ] || continue
+            npx -y "paperclipai@$PAPERCLIPAI_VERSION" company import "./$company" \
+              --dry-run \
+              --api-base http://localhost:3100/api \
+              --data-dir "$PAPERCLIP_HOME"
+          done <<'EOF'
+          ${{ steps.changed.outputs.companies }}
+          EOF
+
+      - name: Show Paperclip log
+        if: failure() && steps.changed.outputs.has_companies == 'true'
+        run: |
+          if [ -f "$RUNNER_TEMP/paperclip.log" ]; then
+            cat "$RUNNER_TEMP/paperclip.log"
+          fi

@@ -33,10 +33,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
       - name: Build refresh summary
         id: summary
         run: |
@@ -50,26 +46,12 @@ jobs:
             cat /tmp/refresh-summary.txt
             echo '```'
             echo
-            echo 'Validation: `npx -y paperclipai@2026.609.0 company import ./<affected-company> --dry-run` for each changed company.'
+            echo 'Validation runs separately in the pull request workflow.'
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
 
       - name: Refresh ${{ matrix.upstream }}
         run: scripts/refresh-companies --apply --repo "${{ matrix.upstream }}"
-
-      - name: Validate affected companies
-        run: |
-          set -euo pipefail
-          companies="$(git diff --name-only | awk -F/ 'NF > 1 {print $1}' | sort -u | tr '\n' ' ')"
-          if [ -z "${companies// }" ]; then
-            echo "No company changes."
-            exit 0
-          fi
-          for company in $companies; do
-            if [ -f "$company/COMPANY.md" ]; then
-              npx -y paperclipai@2026.609.0 company import "./$company" --dry-run
-            fi
-          done
 
       - uses: peter-evans/create-pull-request@v6
         with:
