@@ -1,6 +1,6 @@
 ---
 name: security-review
-description: >
+description: "Complete a security review of the pending changes on the current branch"
   Perform a focused 3-phase security review with vulnerability identification, false-positive filtering, and confidence scoring (>80% exploitability threshold) covering Input Validation, Auth, Crypto, Injection, and Data Exposure
 metadata:
   sources:
