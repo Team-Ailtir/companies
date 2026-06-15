@@ -1,12 +1,12 @@
 ---
 name: article
-description: Write long-form articles synthesized from research and analysis
+description: "Research trending topics and write a publication-ready article"
 metadata:
   sources:
     - kind: github-file
       repo: aaronjmars/aeon
       path: skills/article/SKILL.md
-      commit: b14a3f89082dada4e1aba1838cda08ec6555eeba
+      commit: dc2c0a79fe314c448c7b71fa757dd4e7ce8f7939
       attribution: aaronjmars
       usage: referenced
 ---

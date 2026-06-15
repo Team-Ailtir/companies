@@ -1,12 +1,12 @@
 ---
 name: fetch-tweets
-description: Fetch recent tweets from specific accounts via X.AI API
+description: "Search X/Twitter for tweets about a token, keyword, username, or topic — clustered by sub-narrative"
 metadata:
   sources:
     - kind: github-file
       repo: aaronjmars/aeon
       path: skills/fetch-tweets/SKILL.md
-      commit: b14a3f89082dada4e1aba1838cda08ec6555eeba
+      commit: dc2c0a79fe314c448c7b71fa757dd4e7ce8f7939
       attribution: aaronjmars
       usage: referenced
 ---

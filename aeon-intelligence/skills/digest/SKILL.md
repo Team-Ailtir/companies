@@ -1,12 +1,12 @@
 ---
 name: digest
-description: Generate a consolidated digest from multiple information sources
+description: "Generate and send a digest on a configurable topic"
 metadata:
   sources:
     - kind: github-file
       repo: aaronjmars/aeon
       path: skills/digest/SKILL.md
-      commit: b14a3f89082dada4e1aba1838cda08ec6555eeba
+      commit: dc2c0a79fe314c448c7b71fa757dd4e7ce8f7939
       attribution: aaronjmars
       usage: referenced
 ---

@@ -1,12 +1,12 @@
 ---
 name: idea-capture
-description: Capture and catalog new ideas from conversations and research
+description: "Quick note capture triggered via Telegram — restates, triages, logs, and echoes back for confirmation"
 metadata:
   sources:
     - kind: github-file
       repo: aaronjmars/aeon
       path: skills/idea-capture/SKILL.md
-      commit: b14a3f89082dada4e1aba1838cda08ec6555eeba
+      commit: dc2c0a79fe314c448c7b71fa757dd4e7ce8f7939
       attribution: aaronjmars
       usage: referenced
 ---

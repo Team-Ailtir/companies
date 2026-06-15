@@ -1,12 +1,12 @@
 ---
 name: wallet-digest
-description: Summarize activity for watched blockchain wallets
+description: "Lightweight balance-and-activity summary across tracked wallets. Sibling to onchain-monitor — balances-only, no per-transfer decode."
 metadata:
   sources:
     - kind: github-file
       repo: aaronjmars/aeon
       path: skills/wallet-digest/SKILL.md
-      commit: b14a3f89082dada4e1aba1838cda08ec6555eeba
+      commit: dc2c0a79fe314c448c7b71fa757dd4e7ce8f7939
       attribution: aaronjmars
       usage: referenced
 ---

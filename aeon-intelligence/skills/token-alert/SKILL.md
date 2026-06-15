@@ -1,12 +1,12 @@
 ---
 name: token-alert
-description: Monitor token prices and trigger alerts on significant movements
+description: "Notify on price or volume anomalies for tracked tokens"
 metadata:
   sources:
     - kind: github-file
       repo: aaronjmars/aeon
       path: skills/token-alert/SKILL.md
-      commit: b14a3f89082dada4e1aba1838cda08ec6555eeba
+      commit: dc2c0a79fe314c448c7b71fa757dd4e7ce8f7939
       attribution: aaronjmars
       usage: referenced
 ---

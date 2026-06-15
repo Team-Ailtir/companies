@@ -1,12 +1,12 @@
 ---
 name: pr-review
-description: Thorough code review for pull requests on watched repositories
+description: "Auto-review open PRs with severity-tagged findings, inline comments, and a one-line verdict"
 metadata:
   sources:
     - kind: github-file
       repo: aaronjmars/aeon
       path: skills/pr-review/SKILL.md
-      commit: b14a3f89082dada4e1aba1838cda08ec6555eeba
+      commit: dc2c0a79fe314c448c7b71fa757dd4e7ce8f7939
       attribution: aaronjmars
       usage: referenced
 ---
