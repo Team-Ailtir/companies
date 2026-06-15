@@ -1,12 +1,12 @@
 ---
 name: gif-sticker-maker
-description: Convert photos into animated GIF stickers in Funko Pop / Pop Mart style using MiniMax API
+description: "|"
 metadata:
   sources:
     - kind: github-file
       repo: MiniMax-AI/skills
       path: skills/gif-sticker-maker/SKILL.md
-      commit: ce4855d12931f58514c21ba22b76b8e36a4b1668
+      commit: 60aaae52bb2af8162732751a4332f62a5fef518b
       attribution: MiniMax
       license: MIT
       usage: referenced

@@ -1,12 +1,12 @@
 ---
 name: minimax-docx
-description: Professional DOCX document creation, editing, and formatting using OpenXML SDK (.NET)
+description: ">"
 metadata:
   sources:
     - kind: github-file
       repo: MiniMax-AI/skills
       path: skills/minimax-docx/SKILL.md
-      commit: ce4855d12931f58514c21ba22b76b8e36a4b1668
+      commit: 60aaae52bb2af8162732751a4332f62a5fef518b
       attribution: MiniMax
       license: MIT
       usage: referenced
