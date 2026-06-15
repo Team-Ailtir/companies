@@ -1,12 +1,12 @@
 ---
 name: skill-health
-description: Audit skill configurations for correctness and freshness
+description: "Audit skill metrics, file/resolve issues in memory/issues/, and notify on state change only"
 metadata:
   sources:
     - kind: github-file
       repo: aaronjmars/aeon
       path: skills/skill-health/SKILL.md
-      commit: b14a3f89082dada4e1aba1838cda08ec6555eeba
+      commit: dc2c0a79fe314c448c7b71fa757dd4e7ce8f7939
       attribution: aaronjmars
       usage: referenced
 ---

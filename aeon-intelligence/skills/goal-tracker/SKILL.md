@@ -1,12 +1,12 @@
 ---
 name: goal-tracker
-description: Track and report on progress toward defined goals
+description: "Compare current progress against goals with quantified status, velocity, trend, and a concrete next action per goal"
 metadata:
   sources:
     - kind: github-file
       repo: aaronjmars/aeon
       path: skills/goal-tracker/SKILL.md
-      commit: b14a3f89082dada4e1aba1838cda08ec6555eeba
+      commit: dc2c0a79fe314c448c7b71fa757dd4e7ce8f7939
       attribution: aaronjmars
       usage: referenced
 ---

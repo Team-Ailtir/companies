@@ -1,12 +1,12 @@
 ---
 name: research-brief
-description: Focused research analysis on a specific topic with sources
+description: "Deep dive on a topic with a falsifiable thesis, cited claims, and explicit uncertainty"
 metadata:
   sources:
     - kind: github-file
       repo: aaronjmars/aeon
       path: skills/research-brief/SKILL.md
-      commit: b14a3f89082dada4e1aba1838cda08ec6555eeba
+      commit: dc2c0a79fe314c448c7b71fa757dd4e7ce8f7939
       attribution: aaronjmars
       usage: referenced
 ---

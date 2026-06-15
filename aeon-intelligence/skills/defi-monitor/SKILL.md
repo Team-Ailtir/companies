@@ -1,12 +1,12 @@
 ---
 name: defi-monitor
-description: Track DeFi protocol metrics including TVL, yields, and liquidations
+description: "Check pool health, positions, and yield rates for tracked protocols"
 metadata:
   sources:
     - kind: github-file
       repo: aaronjmars/aeon
       path: skills/defi-monitor/SKILL.md
-      commit: b14a3f89082dada4e1aba1838cda08ec6555eeba
+      commit: dc2c0a79fe314c448c7b71fa757dd4e7ce8f7939
       attribution: aaronjmars
       usage: referenced
 ---

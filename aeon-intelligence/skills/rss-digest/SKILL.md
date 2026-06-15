@@ -1,12 +1,12 @@
 ---
 name: rss-digest
-description: Aggregate and summarize RSS feed updates
+description: "Fetch, summarize, and deliver RSS feed highlights"
 metadata:
   sources:
     - kind: github-file
       repo: aaronjmars/aeon
       path: skills/rss-digest/SKILL.md
-      commit: b14a3f89082dada4e1aba1838cda08ec6555eeba
+      commit: dc2c0a79fe314c448c7b71fa757dd4e7ce8f7939
       attribution: aaronjmars
       usage: referenced
 ---

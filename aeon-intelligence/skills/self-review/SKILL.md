@@ -1,12 +1,12 @@
 ---
 name: self-review
-description: Review the agent's own recent outputs for quality and accuracy
+description: "Audit of what the agent did, what failed, and what to improve"
 metadata:
   sources:
     - kind: github-file
       repo: aaronjmars/aeon
       path: skills/self-review/SKILL.md
-      commit: b14a3f89082dada4e1aba1838cda08ec6555eeba
+      commit: dc2c0a79fe314c448c7b71fa757dd4e7ce8f7939
       attribution: aaronjmars
       usage: referenced
 ---
