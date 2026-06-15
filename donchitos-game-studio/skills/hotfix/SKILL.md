@@ -1,12 +1,12 @@
 ---
 name: hotfix
-description: Emergency production fix workflow
+description: "Emergency fix workflow that bypasses normal sprint processes with a full audit trail. Creates hotfix branch, tracks approvals, and ensures the fix is backported correctly."
 metadata:
   sources:
     - kind: github-file
       repo: Donchitos/Claude-Code-Game-Studios
       path: .claude/skills/hotfix/SKILL.md
-      commit: 7d08e396e354a3601b706109b072f4573fe0007b
+      commit: 984023ddac0d5e27624f2baacde6105e45de375f
       attribution: Donchitos
       license: MIT
       usage: referenced

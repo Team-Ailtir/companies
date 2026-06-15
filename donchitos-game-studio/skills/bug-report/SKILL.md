@@ -1,12 +1,12 @@
 ---
 name: bug-report
-description: Standardized bug documentation
+description: "Creates a structured bug report from a description, or analyzes code to identify potential bugs. Ensures every bug report has full reproduction steps, severity assessment, and context."
 metadata:
   sources:
     - kind: github-file
       repo: Donchitos/Claude-Code-Game-Studios
       path: .claude/skills/bug-report/SKILL.md
-      commit: 7d08e396e354a3601b706109b072f4573fe0007b
+      commit: 984023ddac0d5e27624f2baacde6105e45de375f
       attribution: Donchitos
       license: MIT
       usage: referenced
