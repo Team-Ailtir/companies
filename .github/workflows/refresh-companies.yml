@@ -17,7 +17,7 @@ jobs:
       ISSUE_TITLE: Company upstream refresh report
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Build drift report
         id: report
