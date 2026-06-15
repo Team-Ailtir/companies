@@ -30,7 +30,7 @@ scripts/refresh-companies --check --repo obra/superpowers
 ```
 
 Use `--dry-run` before submitting changes to a company. Use the `companies.sh` command when checking the published import path documented in the root `README.md`.
-Use `scripts/refresh-companies --check` to inspect upstream skill drift and `--apply --repo <owner/repo>` only when intentionally refreshing generated company skill metadata.
+Use `scripts/refresh-companies --check` to inspect upstream skill drift. The script is report-only; it must not rewrite company packages.
 
 ## Coding Style & Naming Conventions
 
@@ -54,10 +54,10 @@ Recent commits use short, imperative summaries such as `Replace pnpm with npx fo
 
 Pull requests should describe the company or package changed, summarize validation performed, and link related upstream sources or issues. Keep PRs scoped to one company where practical, especially when importing or refreshing upstream skills.
 
-## Automated Skill Refreshes
+## Upstream Drift Reports
 
-`.companies-refresh.yaml` lists upstream skill repositories tracked by the scheduled GitHub Actions workflow in `.github/workflows/refresh-companies.yml`. The workflow runs weekly, refreshes one upstream per PR, prefers the latest semver tag, and falls back to the default branch HEAD when no release tag exists.
+`.companies-refresh.yaml` lists upstream skill repositories tracked by the scheduled GitHub Actions workflow in `.github/workflows/refresh-companies.yml`. The workflow runs weekly, compares tracked sources with the latest semver tag or default branch HEAD, and reports drift without changing company files.
 
-The refresh script preserves catalog-written skill stubs by default and only replaces vendored upstream bodies when a skill already embeds the upstream document. Missing upstream paths are reported in the job summary so maintainers can decide whether to retire, remap, or manually rebuild those skills.
+The workflow reports drift only. It writes a GitHub Actions summary and maintains one issue titled `Company upstream refresh report`. Do not treat that issue as an instruction to blindly mirror upstream; package refreshes are maintainer-authored changes that decide which new skills, support files, docs, and agent assignments belong in the company.
 
-Paperclip import validation is intentionally separate in `.github/workflows/validate-company-packages.yml`. That pull request workflow starts one local Paperclip server per PR and validates all changed company packages with `paperclipai@2026.609.0`.
+Paperclip import validation is intentionally separate in `.github/workflows/validate-company-packages.yml`. That pull request workflow starts one local Paperclip server and validates changed company packages with `paperclipai@2026.609.0`.

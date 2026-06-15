@@ -4,13 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       pr:
-        description: "Pull request number to validate. Leave empty to validate all refresh PRs."
-        required: false
-  workflow_run:
-    workflows:
-      - Refresh companies
-    types:
-      - completed
+        description: "Pull request number to validate."
+        required: true
   pull_request:
     paths:
       - ".github/workflows/validate-company-packages.yml"
@@ -27,7 +22,6 @@ permissions:
 
 jobs:
   validate:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     env:
       PAPERCLIPAI_VERSION: "2026.609.0"
@@ -51,16 +45,13 @@ jobs:
           set -euo pipefail
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             printf '%s\n' "${{ github.event.pull_request.number }}" > "$RUNNER_TEMP/prs.txt"
-          elif [ -n "${{ inputs.pr || '' }}" ]; then
-            printf '%s\n' "${{ inputs.pr }}" > "$RUNNER_TEMP/prs.txt"
           else
-            gh pr list --state open --limit 100 --json number,headRefName \
-              --jq '.[] | select(.headRefName | startswith("refresh/")) | .number' > "$RUNNER_TEMP/prs.txt"
+            printf '%s\n' "${{ inputs.pr }}" > "$RUNNER_TEMP/prs.txt"
           fi
 
           if [ ! -s "$RUNNER_TEMP/prs.txt" ]; then
             echo "has_prs=false" >> "$GITHUB_OUTPUT"
-            echo "No refresh pull requests to validate."
+            echo "No pull request selected."
             exit 0
           fi
 
