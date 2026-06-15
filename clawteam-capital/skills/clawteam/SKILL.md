@@ -1,12 +1,12 @@
 ---
 name: clawteam
-description: Multi-agent team orchestration CLI for spawning agents, managing tasks, and coordinating work through mailbox messaging and git worktree isolation
+description: ">"
 metadata:
   sources:
     - kind: github-file
       repo: HKUDS/ClawTeam
       path: skills/clawteam/SKILL.md
-      commit: bd511b58eb58c272f82f285c1c436557a92ca4a7
+      commit: 2817bcf9ba7962d8e73c22bbf923572c135c635c
       attribution: HKUDS
       license: MIT
       usage: referenced
