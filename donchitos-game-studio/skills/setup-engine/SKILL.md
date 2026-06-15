@@ -1,12 +1,12 @@
 ---
 name: setup-engine
-description: Engine selection and project setup
+description: "Configure the project's game engine and version. Pins the engine in CLAUDE.md, detects knowledge gaps, and populates engine reference docs via WebSearch when the version is beyond the LLM's training data."
 metadata:
   sources:
     - kind: github-file
       repo: Donchitos/Claude-Code-Game-Studios
       path: .claude/skills/setup-engine/SKILL.md
-      commit: 7d08e396e354a3601b706109b072f4573fe0007b
+      commit: 984023ddac0d5e27624f2baacde6105e45de375f
       attribution: Donchitos
       license: MIT
       usage: referenced

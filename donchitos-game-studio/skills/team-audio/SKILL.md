@@ -1,12 +1,12 @@
 ---
 name: team-audio
-description: Audio implementation team orchestration
+description: "Orchestrate audio team: audio-director + sound-designer + technical-artist + gameplay-programmer for full audio pipeline from direction to implementation."
 metadata:
   sources:
     - kind: github-file
       repo: Donchitos/Claude-Code-Game-Studios
       path: .claude/skills/team-audio/SKILL.md
-      commit: 7d08e396e354a3601b706109b072f4573fe0007b
+      commit: 984023ddac0d5e27624f2baacde6105e45de375f
       attribution: Donchitos
       license: MIT
       usage: referenced

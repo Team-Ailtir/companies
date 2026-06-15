@@ -1,12 +1,12 @@
 ---
 name: team-release
-description: Release coordination across departments
+description: "Orchestrate the release team: coordinates release-manager, qa-lead, devops-engineer, and producer to execute a release from candidate to deployment."
 metadata:
   sources:
     - kind: github-file
       repo: Donchitos/Claude-Code-Game-Studios
       path: .claude/skills/team-release/SKILL.md
-      commit: 7d08e396e354a3601b706109b072f4573fe0007b
+      commit: 984023ddac0d5e27624f2baacde6105e45de375f
       attribution: Donchitos
       license: MIT
       usage: referenced

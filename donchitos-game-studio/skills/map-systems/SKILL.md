@@ -1,12 +1,12 @@
 ---
 name: map-systems
-description: System decomposition and dependency mapping
+description: "Decompose a game concept into individual systems, map dependencies, prioritize design order, and create the systems index."
 metadata:
   sources:
     - kind: github-file
       repo: Donchitos/Claude-Code-Game-Studios
       path: .claude/skills/map-systems/SKILL.md
-      commit: 7d08e396e354a3601b706109b072f4573fe0007b
+      commit: 984023ddac0d5e27624f2baacde6105e45de375f
       attribution: Donchitos
       license: MIT
       usage: referenced

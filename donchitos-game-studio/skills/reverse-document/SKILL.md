@@ -1,12 +1,12 @@
 ---
 name: reverse-document
-description: Generate documentation from existing code
+description: "Generate design or architecture documents from existing implementation. Works backwards from code/prototypes to create missing planning docs."
 metadata:
   sources:
     - kind: github-file
       repo: Donchitos/Claude-Code-Game-Studios
       path: .claude/skills/reverse-document/SKILL.md
-      commit: 7d08e396e354a3601b706109b072f4573fe0007b
+      commit: 984023ddac0d5e27624f2baacde6105e45de375f
       attribution: Donchitos
       license: MIT
       usage: referenced
