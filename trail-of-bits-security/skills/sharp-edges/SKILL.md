@@ -1,13 +1,13 @@
 ---
 name: sharp-edges
-description: >
+description: "Identifies error-prone APIs, dangerous configurations, and footgun designs that enable security mistakes. Use when reviewing API designs, configuration schemas, cryptographic library ergonomics, or evaluating whether code follows 'secure by default' and 'pit of success' principles. Triggers: footgun, misuse-resistant, secure defaults, API usability, dangerous configuration."
   Identify error-prone APIs, dangerous configurations, and footgun designs that enable security mistakes
 metadata:
   sources:
     - kind: github-file
       repo: trailofbits/skills
       path: plugins/sharp-edges/skills/sharp-edges/SKILL.md
-      commit: 5c15f4f5644b4bd3d48882a802a7232d501852b6
+      commit: c070b9b5881183ea5f6e320ff06c46688becb13e
       attribution: Trail of Bits
       license: CC-BY-SA-4.0
       usage: referenced
