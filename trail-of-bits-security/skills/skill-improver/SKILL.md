@@ -1,13 +1,13 @@
 ---
 name: skill-improver
-description: >
+description: "Iteratively reviews and fixes Claude Code skill quality issues until they meet standards. Runs automated fix-review cycles using the skill-reviewer agent. Use to fix skill quality issues, improve skill descriptions, run automated skill review loops, or iteratively refine a skill. Triggers on 'fix my skill', 'improve skill quality', 'skill improvement loop'. NOT for one-time reviews—use /skill-reviewer directly."
   Automatically reviews and fixes Claude Code skills through iterative refinement until they meet quality standards.
 metadata:
   sources:
     - kind: github-file
       repo: trailofbits/skills
       path: plugins/skill-improver/skills/skill-improver/SKILL.md
-      commit: 5c15f4f5644b4bd3d48882a802a7232d501852b6
+      commit: c070b9b5881183ea5f6e320ff06c46688becb13e
       attribution: Trail of Bits
       license: CC-BY-SA-4.0
       usage: referenced
