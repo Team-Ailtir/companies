@@ -281,6 +281,61 @@ Each company directory contains:
 - `README.md` — detailed company documentation
 - `.paperclip.yaml` — Paperclip configuration
 
+## Automated Company Refreshes
+
+This repository keeps vendored company skills current with their upstream sources through a two-phase GitHub Actions flow.
+
+Tracked upstream repositories are listed in `.companies-refresh.yaml`. The refresh script reads each skill's `metadata.sources` `github-file` entry, resolves the upstream target to the latest semver-like tag, and falls back to the default branch `HEAD` when no release tag exists. It preserves catalog-written skill stubs unless the local skill already vendors the upstream document body.
+
+Run refresh checks locally before opening manual changes:
+
+```bash
+scripts/refresh-companies --list-repos
+scripts/refresh-companies --check --repo garrytan/gstack
+scripts/refresh-companies --apply --repo garrytan/gstack
+```
+
+The scheduled workflow in `.github/workflows/refresh-companies.yml` runs weekly and can also be triggered manually. It runs one matrix job per upstream repository and opens one pull request per changed upstream branch, such as `refresh/garrytan/gstack`.
+
+```bash
+gh workflow run refresh-companies.yml --ref main
+```
+
+Validation is handled separately by `.github/workflows/validate-company-packages.yml`. It starts a local Paperclip server with `paperclipai@2026.609.0`, selects either one requested PR or all open `refresh/` PRs, and validates each changed company package:
+
+```bash
+npx -y paperclipai@2026.609.0 company import ./gstack --dry-run --api-base http://localhost:3100
+```
+
+Validate all open refresh PRs manually, or target one PR:
+
+```bash
+gh workflow run validate-company-packages.yml --ref main
+gh workflow run validate-company-packages.yml --ref main -f pr=10
+```
+
+### GitHub Actions Setup
+
+No custom repository secret is required for the refresh workflow in this repository. It uses the built-in `GITHUB_TOKEN`, so GitHub Actions must be allowed to write repository contents and pull requests.
+
+Set the repository workflow permissions to **Read and write permissions** and enable **Allow GitHub Actions to create and approve pull requests**. With the GitHub CLI:
+
+```bash
+gh api --method PUT repos/OWNER/REPO/actions/permissions/workflow \
+  -f default_workflow_permissions=write \
+  -F can_approve_pull_request_reviews=true
+```
+
+If the repository belongs to an organization that blocks write tokens, enable the same setting at the organization level first:
+
+```bash
+gh api --method PUT orgs/OWNER/actions/permissions/workflow \
+  -f default_workflow_permissions=write \
+  -F can_approve_pull_request_reviews=true
+```
+
+The validation workflow also uses `GITHUB_TOKEN` to list and inspect pull requests. It does not need access to a deployed Paperclip instance because it starts Paperclip locally inside the workflow runner.
+
 ## Shared Skills
 
 ### `company-creator`
