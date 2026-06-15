@@ -1,6 +1,6 @@
 ---
 name: design-review-action
-description: >
+description: "Complete a design review of the pending changes on the current branch"
   GitHub Actions integration for automated design review on pull requests that modify frontend files
 metadata:
   sources:
