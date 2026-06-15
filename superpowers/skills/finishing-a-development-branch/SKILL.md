@@ -1,12 +1,12 @@
 ---
 name: finishing-a-development-branch
-description: "Use when implementation is complete, all tests pass, and you need to decide how to integrate the work — guides completion of development work by presenting structured options for merge, PR, or cleanup"
+description: "Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup"
 metadata:
   sources:
     - kind: github-file
       repo: obra/superpowers
       path: skills/finishing-a-development-branch/SKILL.md
-      commit: 1128a721ca3b7fd76bf12e8392cdeb89cfcfcf2a
+      commit: f2cbfbefebbfef77321e4c9abc9e949826bea9d7
       attribution: Jesse Vincent
       license: MIT
       usage: referenced
