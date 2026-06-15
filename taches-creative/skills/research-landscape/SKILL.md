@@ -1,6 +1,6 @@
 ---
 name: research-landscape
-description: >
+description: "Map the space - tools, players, trends, gaps in a domain"
   Broad survey of a space -- players, trends, dynamics, and emerging patterns.
   Maps the territory before committing to a direction.
 metadata:
@@ -8,7 +8,7 @@ metadata:
     - kind: github-file
       repo: glittercowboy/taches-cc-resources
       path: commands/research/landscape.md
-      commit: 0d915b80b95f9889673e1dc6a9059ed239764cde
+      commit: 1757615b99ab789a72ff2d02e9f6112af2a15c04
       attribution: "TÂCHES"
       license: MIT
       usage: referenced
