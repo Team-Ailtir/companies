@@ -1,6 +1,6 @@
 ---
 name: todo-management
-description: >
+description: "Add todo item to TO-DOS.md with context from conversation"
   Capture ideas mid-conversation without derailing current work. Add structured todo
   items with full context (file paths, line numbers, reasoning), then resume later
   with zero context loss via check-todos.
@@ -9,7 +9,7 @@ metadata:
     - kind: github-file
       repo: glittercowboy/taches-cc-resources
       path: commands/add-to-todos.md
-      commit: 0d915b80b95f9889673e1dc6a9059ed239764cde
+      commit: 1757615b99ab789a72ff2d02e9f6112af2a15c04
       attribution: "TÂCHES"
       license: MIT
       usage: referenced
