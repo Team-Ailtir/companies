@@ -1,12 +1,12 @@
 ---
 name: fullstack-dev
-description: Full-stack backend architecture and frontend-backend integration with REST APIs, auth flows, real-time features, and database integration
+description: "|"
 metadata:
   sources:
     - kind: github-file
       repo: MiniMax-AI/skills
       path: skills/fullstack-dev/SKILL.md
-      commit: ce4855d12931f58514c21ba22b76b8e36a4b1668
+      commit: 60aaae52bb2af8162732751a4332f62a5fef518b
       attribution: MiniMax
       license: MIT
       usage: referenced
