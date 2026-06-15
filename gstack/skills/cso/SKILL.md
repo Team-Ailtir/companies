@@ -1,6 +1,6 @@
 ---
 name: cso
-description: >
+description: "Chief Security Officer mode. (gstack)"
   Infrastructure-first security audit across 14 phases: attack surface mapping,
   secrets archaeology (git history), supply chain analysis, CI/CD pipeline
   security, LLM/AI threat detection, OWASP Top 10, STRIDE threat modeling.
@@ -11,7 +11,7 @@ metadata:
     - kind: github-file
       repo: garrytan/gstack
       path: cso/SKILL.md
-      commit: f4bbfaa5bdfd2d6ce59541c2145432febde57fed
+      commit: c7ae63201ab193a7dc7fb7e0d81238645111ffac
       attribution: Garry Tan
       license: MIT
       usage: referenced

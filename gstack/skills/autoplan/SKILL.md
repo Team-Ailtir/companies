@@ -1,6 +1,6 @@
 ---
 name: autoplan
-description: >
+description: "Auto-review pipeline — reads the full CEO, design, eng, and DX review skills from disk and runs them sequentially with auto-decisions using 6 decision principles. (gstack)"
   Fully automated review pipeline: CEO, Design, and Eng reviews with
   auto-decisions using 6 principles (completeness, boil lakes, pragmatic,
   DRY, explicit over clever, bias toward action). Only pauses for premise
@@ -11,7 +11,7 @@ metadata:
     - kind: github-file
       repo: garrytan/gstack
       path: autoplan/SKILL.md
-      commit: f4bbfaa5bdfd2d6ce59541c2145432febde57fed
+      commit: c7ae63201ab193a7dc7fb7e0d81238645111ffac
       attribution: Garry Tan
       license: MIT
       usage: referenced
