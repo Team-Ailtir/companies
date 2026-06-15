@@ -1,12 +1,12 @@
 ---
 name: validate-delivery
-description: Autonomously validate that a task is complete and ready to ship — tests, build, and requirement checks
+description: "Use when user asks to \\\"validate delivery\\\", \\\"check readiness\\\", or \\\"verify completion\\\". Runs tests, build, and requirement checks with pass/fail instructions."
 metadata:
   sources:
     - kind: github-file
       repo: agent-sh/agentsys
       path: .kiro/skills/validate-delivery/SKILL.md
-      commit: ac6deab8cfbcbb2f70aec159e60975a88c96e6ea
+      commit: 5fe2f5195466dce3e44f50145e821f612a6eb175
       attribution: Avi Fenesh
       license: MIT
       usage: referenced

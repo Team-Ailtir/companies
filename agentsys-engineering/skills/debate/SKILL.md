@@ -1,12 +1,12 @@
 ---
 name: debate
-description: Structured multi-round debate between AI tools with proposer/challenger roles and verdict
+description: "Structured AI debate templates and synthesis. Use when orchestrating multi-round debates between AI tools, 'debate topic', 'argue about', 'stress test idea', 'devil advocate'."
 metadata:
   sources:
     - kind: github-file
       repo: agent-sh/agentsys
       path: .kiro/skills/debate/SKILL.md
-      commit: ac6deab8cfbcbb2f70aec159e60975a88c96e6ea
+      commit: 5fe2f5195466dce3e44f50145e821f612a6eb175
       attribution: Avi Fenesh
       license: MIT
       usage: referenced

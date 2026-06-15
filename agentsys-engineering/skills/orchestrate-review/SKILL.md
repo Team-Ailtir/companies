@@ -1,12 +1,12 @@
 ---
 name: orchestrate-review
-description: Multi-pass code review orchestration with parallel reviewers for quality, security, performance, and test coverage
+description: "Use when user asks to \\\"deep review the code\\\", \\\"thorough code review\\\", \\\"multi-pass review\\\", or when orchestrating the Phase 9 review loop. Provides review pass definitions (code quality, security, performance, test coverage), signal detection patterns, and iteration algorithms."
 metadata:
   sources:
     - kind: github-file
       repo: agent-sh/agentsys
       path: .kiro/skills/orchestrate-review/SKILL.md
-      commit: ac6deab8cfbcbb2f70aec159e60975a88c96e6ea
+      commit: 5fe2f5195466dce3e44f50145e821f612a6eb175
       attribution: Avi Fenesh
       license: MIT
       usage: referenced

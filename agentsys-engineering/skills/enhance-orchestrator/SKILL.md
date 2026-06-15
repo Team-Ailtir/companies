@@ -1,12 +1,12 @@
 ---
 name: enhance-orchestrator
-description: Coordinate multiple enhancement analyzers in parallel and produce unified report
+description: "Use when coordinating multiple enhancers for /enhance command. Runs analyzers in parallel and produces unified report."
 metadata:
   sources:
     - kind: github-file
       repo: agent-sh/agentsys
       path: .kiro/skills/enhance-orchestrator/SKILL.md
-      commit: ac6deab8cfbcbb2f70aec159e60975a88c96e6ea
+      commit: 5fe2f5195466dce3e44f50145e821f612a6eb175
       attribution: Avi Fenesh
       license: MIT
       usage: referenced

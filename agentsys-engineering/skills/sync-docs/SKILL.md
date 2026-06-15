@@ -1,12 +1,12 @@
 ---
 name: sync-docs
-description: Sync documentation with code — find outdated refs, update CHANGELOG, flag stale examples
+description: "Sync documentation with code. Use when user asks to update docs, check docs, fix stale documentation, update changelog, or after code changes."
 metadata:
   sources:
     - kind: github-file
       repo: agent-sh/agentsys
       path: .kiro/skills/sync-docs/SKILL.md
-      commit: ac6deab8cfbcbb2f70aec159e60975a88c96e6ea
+      commit: 5fe2f5195466dce3e44f50145e821f612a6eb175
       attribution: Avi Fenesh
       license: MIT
       usage: referenced

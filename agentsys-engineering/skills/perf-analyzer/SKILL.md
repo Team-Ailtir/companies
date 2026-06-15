@@ -1,12 +1,12 @@
 ---
 name: perf-analyzer
-description: Synthesize performance findings into evidence-backed recommendations and decisions
+description: "Use when synthesizing perf findings into evidence-backed recommendations and decisions."
 metadata:
   sources:
     - kind: github-file
       repo: agent-sh/agentsys
       path: .kiro/skills/perf-analyzer/SKILL.md
-      commit: ac6deab8cfbcbb2f70aec159e60975a88c96e6ea
+      commit: 5fe2f5195466dce3e44f50145e821f612a6eb175
       attribution: Avi Fenesh
       license: MIT
       usage: referenced
