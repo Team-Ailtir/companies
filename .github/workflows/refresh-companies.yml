@@ -1,4 +1,4 @@
-name: Refresh companies
+name: Report company upstream drift
 
 on:
   workflow_dispatch:
@@ -6,57 +6,49 @@ on:
     - cron: "17 6 * * 1"
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+  issues: write
 
 jobs:
-  refresh:
+  report:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        upstream:
-          - Donchitos/Claude-Code-Game-Studios
-          - HKUDS/ClawTeam
-          - K-Dense-AI/claude-scientific-skills
-          - MiniMax-AI/skills
-          - OneRedOak/claude-code-workflows
-          - aaronjmars/aeon
-          - agent-sh/agentsys
-          - garrytan/gstack
-          - glittercowboy/taches-cc-resources
-          - jeffallan/claude-skills
-          - obra/superpowers
-          - phuryn/pm-skills
-          - trailofbits/skills
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ISSUE_TITLE: Company upstream refresh report
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build refresh summary
-        id: summary
+      - name: Build drift report
+        id: report
         run: |
           set -euo pipefail
-          scripts/refresh-companies --check --repo "${{ matrix.upstream }}" > /tmp/refresh-summary.txt
+          scripts/refresh-companies --check --json > "$RUNNER_TEMP/drift.json"
+          scripts/refresh-companies --check --markdown > "$RUNNER_TEMP/drift.md"
+          cat "$RUNNER_TEMP/drift.md" >> "$GITHUB_STEP_SUMMARY"
+
+          has_drift="$(jq -r '((.stale_count > 0) or (.new_upstream_skill_path_count > 0) or ((.errors | length) > 0))' "$RUNNER_TEMP/drift.json")"
+          echo "has_drift=$has_drift" >> "$GITHUB_OUTPUT"
+
+      - name: Update tracking issue
+        run: |
+          set -euo pipefail
+          issue="$(gh issue list --state all --limit 100 --search "$ISSUE_TITLE in:title" --json number,title --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .number" | head -n 1)"
+
           {
-            echo 'body<<EOF'
-            echo 'Automated company refresh for `${{ matrix.upstream }}`.'
-            echo
-            echo '```text'
-            cat /tmp/refresh-summary.txt
-            echo '```'
-            echo
-            echo 'Validation runs separately in the pull request workflow.'
-            echo 'EOF'
-          } >> "$GITHUB_OUTPUT"
+            printf 'Updated by [%s](%s/actions/runs/%s).\\n\\n' "$GITHUB_WORKFLOW" "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "$GITHUB_RUN_ID"
+            cat "$RUNNER_TEMP/drift.md"
+          } > "$RUNNER_TEMP/issue-body.md"
 
-      - name: Refresh ${{ matrix.upstream }}
-        run: scripts/refresh-companies --apply --repo "${{ matrix.upstream }}"
+          if [ -z "$issue" ]; then
+            issue_url="$(gh issue create --title "$ISSUE_TITLE" --body-file "$RUNNER_TEMP/issue-body.md")"
+            issue="${issue_url##*/}"
+          else
+            gh issue edit "$issue" --body-file "$RUNNER_TEMP/issue-body.md"
+          fi
 
-      - uses: peter-evans/create-pull-request@v6
-        with:
-          branch: refresh/${{ matrix.upstream }}
-          delete-branch: true
-          commit-message: Refresh ${{ matrix.upstream }} company skills
-          title: Refresh ${{ matrix.upstream }} company skills
-          body: ${{ steps.summary.outputs.body }}
+          if [ "${{ steps.report.outputs.has_drift }}" = "true" ]; then
+            gh issue reopen "$issue" >/dev/null 2>&1 || true
+          else
+            gh issue close "$issue" --comment "No upstream drift detected in the latest scheduled report." >/dev/null 2>&1 || true
+          fi
